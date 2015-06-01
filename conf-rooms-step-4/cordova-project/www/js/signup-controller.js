@@ -60,73 +60,74 @@ BookIt.SignUpController.prototype.resetSignUpForm = function () {
 
 BookIt.SignUpController.prototype.onSignupCommand = function () {
 
-    var firstName = this.$txtFirstName.val().trim(),
-        lastName = this.$txtLastName.val().trim(),
-        emailAddress = this.$txtEmailAddress.val().trim(),
-        password = this.$txtPassword.val().trim(),
-        passwordConfirm = this.$txtPasswordConfirm.val().trim(),
+    var me = this,
+        firstName = me.$txtFirstName.val().trim(),
+        lastName = me.$txtLastName.val().trim(),
+        emailAddress = me.$txtEmailAddress.val().trim(),
+        password = me.$txtPassword.val().trim(),
+        passwordConfirm = me.$txtPasswordConfirm.val().trim(),
         invalidInput = false,
         invisibleStyle = "bi-invisible",
         invalidInputStyle = "bi-invalid-input";
 
     // Reset styles.
-    this.$ctnErr.removeClass().addClass(invisibleStyle);
-    this.$txtFirstName.removeClass(invalidInputStyle);
-    this.$txtLastName.removeClass(invalidInputStyle);
-    this.$txtEmailAddress.removeClass(invalidInputStyle);
-    this.$txtPassword.removeClass(invalidInputStyle);
-    this.$txtPasswordConfirm.removeClass(invalidInputStyle);
+    me.$ctnErr.removeClass().addClass(invisibleStyle);
+    me.$txtFirstName.removeClass(invalidInputStyle);
+    me.$txtLastName.removeClass(invalidInputStyle);
+    me.$txtEmailAddress.removeClass(invalidInputStyle);
+    me.$txtPassword.removeClass(invalidInputStyle);
+    me.$txtPasswordConfirm.removeClass(invalidInputStyle);
 
     // Flag each invalid field.
     if (firstName.length === 0) {
-        this.$txtFirstName.addClass(invalidInputStyle);
+        me.$txtFirstName.addClass(invalidInputStyle);
         invalidInput = true;
     }
     if (lastName.length === 0) {
-        this.$txtLastName.addClass(invalidInputStyle);
+        me.$txtLastName.addClass(invalidInputStyle);
         invalidInput = true;
     }
     if (emailAddress.length === 0) {
-        this.$txtEmailAddress.addClass(invalidInputStyle);
+        me.$txtEmailAddress.addClass(invalidInputStyle);
         invalidInput = true;
     }
     if (password.length === 0) {
-        this.$txtPassword.addClass(invalidInputStyle);
+        me.$txtPassword.addClass(invalidInputStyle);
         invalidInput = true;
     }
     if (passwordConfirm.length === 0) {
-        this.$txtPasswordConfirm.addClass(invalidInputStyle);
+        me.$txtPasswordConfirm.addClass(invalidInputStyle);
         invalidInput = true;
     }
 
     // Make sure that all the required fields have values.
     if (invalidInput) {
-        this.$ctnErr.html("<p>Please enter all the required fields.</p>");
-        this.$ctnErr.addClass("bi-ctn-err").slideDown();
+        me.$ctnErr.html("<p>Please enter all the required fields.</p>");
+        me.$ctnErr.addClass("bi-ctn-err").slideDown();
         return;
     }
 
-    if (!this.emailAddressIsValid(emailAddress)) {
-        this.$ctnErr.html("<p>Please enter a valid email address.</p>");
-        this.$ctnErr.addClass("bi-ctn-err").slideDown();
-        this.$txtEmailAddress.addClass(invalidInputStyle);
+    if (!me.emailAddressIsValid(emailAddress)) {
+        me.$ctnErr.html("<p>Please enter a valid email address.</p>");
+        me.$ctnErr.addClass("bi-ctn-err").slideDown();
+        me.$txtEmailAddress.addClass(invalidInputStyle);
         return;
     }
 
-    if (!this.passwordsMatch(password, passwordConfirm)) {
-        this.$ctnErr.html("<p>Your passwords don't match.</p>");
-        this.$ctnErr.addClass("bi-ctn-err").slideDown();
-        this.$txtPassword.addClass(invalidInputStyle);
-        this.$txtPasswordConfirm.addClass(invalidInputStyle);
+    if (!me.passwordsMatch(password, passwordConfirm)) {
+        me.$ctnErr.html("<p>Your passwords don't match.</p>");
+        me.$ctnErr.addClass("bi-ctn-err").slideDown();
+        me.$txtPassword.addClass(invalidInputStyle);
+        me.$txtPasswordConfirm.addClass(invalidInputStyle);
         return;
     }
 
-    if (!this.passwordIsComplex(password)) {
+    if (!me.passwordIsComplex(password)) {
         // TODO: Use error message to explain password rules.
-        this.$ctnErr.html("<p>Your password is very easy to guess.  Please try a more complex password.</p>");
-        this.$ctnErr.addClass("bi-ctn-err").slideDown();
-        this.$txtPassword.addClass(invalidInputStyle);
-        this.$txtPasswordConfirm.addClass(invalidInputStyle);
+        me.$ctnErr.html("<p>Your password is very easy to guess.  Please try a more complex password.</p>");
+        me.$ctnErr.addClass("bi-ctn-err").slideDown();
+        me.$txtPassword.addClass(invalidInputStyle);
+        me.$txtPasswordConfirm.addClass(invalidInputStyle);
         return;
     }
 
@@ -145,13 +146,13 @@ BookIt.SignUpController.prototype.onSignupCommand = function () {
                         case BookIt.ApiMessages.DB_ERROR:
                         case BookIt.ApiMessages.COULD_NOT_CREATE_USER:
                             // TODO: Use a friendlier error message below.
-                            this.$ctnErr.html("<p>Oops! BookIt had a problem and could not register you.  Please try again in a few minutes.</p>");
-                            this.$ctnErr.addClass("bi-ctn-err").slideDown();
+                            me.$ctnErr.html("<p>Oops! BookIt had a problem and could not register you.  Please try again in a few minutes.</p>");
+                            me.$ctnErr.addClass("bi-ctn-err").slideDown();
                             break;
                         case BookIt.ApiMessages.EMAIL_ALREADY_EXISTS:
-                            this.$ctnErr.html("<p>The email address that you provided is already registered.</p>");
-                            this.$ctnErr.addClass("bi-ctn-err").slideDown();
-                            this.$txtEmailAddress.addClass(invalidInputStyle);
+                            me.$ctnErr.html("<p>The email address that you provided is already registered.</p>");
+                            me.$ctnErr.addClass("bi-ctn-err").slideDown();
+                            me.$txtEmailAddress.addClass(invalidInputStyle);
                             break;
                     }
                 }
@@ -160,8 +161,8 @@ BookIt.SignUpController.prototype.onSignupCommand = function () {
         error: function (e) {
             console.log(e.message);
             // TODO: Use a friendlier error message below.
-            this.$ctnErr.html("<p>Oops! BookIt had a problem and could not register you.  Please try again in a few minutes.</p>");
-            this.$ctnErr.addClass("bi-ctn-err").slideDown();
+            me.$ctnErr.html("<p>Oops! BookIt had a problem and could not register you.  Please try again in a few minutes.</p>");
+            me.$ctnErr.addClass("bi-ctn-err").slideDown();
         }
     });
 };
